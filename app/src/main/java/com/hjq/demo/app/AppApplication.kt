@@ -97,14 +97,14 @@ class AppApplication : Application() {
             // 设置 Toast 拦截器
             ToastUtils.setInterceptor(ToastLogInterceptor())
 
-            // 本地异常捕捉
-            CrashHandler.register(application)
+            // // 本地异常捕捉
+            // CrashHandler.register(application)
 
             // 友盟统计、登录、分享 SDK
             UmengClient.init(application, AppConfig.isLogEnable())
 
-            // Bugly 异常捕捉
-            CrashReport.initCrashReport(application, AppConfig.getBuglyId(), AppConfig.isDebug())
+            // // Bugly 异常捕捉
+            // CrashReport.initCrashReport(application, AppConfig.getBuglyId(), AppConfig.isDebug())
 
             // Activity 栈管理初始化
             ActivityManager.getInstance().init(application)

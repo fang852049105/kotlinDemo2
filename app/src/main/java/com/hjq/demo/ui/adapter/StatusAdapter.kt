@@ -3,6 +3,8 @@ package com.hjq.demo.ui.adapter
 import android.content.*
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.hjq.demo.R
 import com.hjq.demo.app.AppAdapter
 
@@ -14,7 +16,14 @@ import com.hjq.demo.app.AppAdapter
  */
 class StatusAdapter constructor(context: Context) : AppAdapter<String?>(context) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    private var mType = 1
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AppViewHolder {
+        // if (viewType == 1) {
+        //     return ViewHolder()
+        // } else {
+        //     return ViewHolderV2()
+        // }
         return ViewHolder()
     }
 
@@ -26,4 +35,25 @@ class StatusAdapter constructor(context: Context) : AppAdapter<String?>(context)
             textView?.text = getItem(position)
         }
     }
+
+    // inner class ViewHolderV2 : AppViewHolder(R.layout.status_item_v2) {
+    //
+    //     private val textView: TextView? by lazy { findViewById(R.id.tv_status_text) }
+    //
+    //     override fun onBindView(position: Int) {
+    //         textView?.text = getItem(position)
+    //     }
+    // }
+
+    // fun changeType(type:Int) {
+    //     mType = type
+    // }
+    //
+    // override fun getItemViewType(position: Int): Int {
+    //    return mType
+    // }
+
+    // override fun generateDefaultLayoutManager(context: Context): RecyclerView.LayoutManager {
+    //     return GridLayoutManager(context, 2)
+    // }
 }

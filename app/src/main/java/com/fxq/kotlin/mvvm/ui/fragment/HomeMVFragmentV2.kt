@@ -25,8 +25,7 @@ import java.util.ArrayList
  * @author Fangxq
  * @date 2023/10/8
  */
-class HomeMVFragmentV2 : TitleBarFragment<HomeActivity>() , TabAdapter.OnTabListener,
-  ViewPager.OnPageChangeListener, XCollapsingToolbarLayout.OnScrimsListener {
+class HomeMVFragmentV2 : TitleBarFragment<HomeActivity>() , XCollapsingToolbarLayout.OnScrimsListener {
 
   companion object {
 
@@ -42,11 +41,12 @@ class HomeMVFragmentV2 : TitleBarFragment<HomeActivity>() , TabAdapter.OnTabList
   private val searchView: AppCompatImageView? by lazy { findViewById(R.id.iv_home_search) }
   private val tabLayout: TabLayout? by lazy { findViewById(R.id.tab_layout) }
   private val viewPager: ViewPager? by lazy { findViewById(R.id.vp_home_pager) }
+  private val changeText: TextView? by lazy { findViewById(R.id.tv_change) }
 
   private var pagerAdapter: TabPagerAdapter? = null
 
   override fun getLayoutId(): Int {
-    return R.layout.fragment_home
+    return R.layout.fragment_home_v2
   }
 
   override fun initView() {
@@ -56,7 +56,6 @@ class HomeMVFragmentV2 : TitleBarFragment<HomeActivity>() , TabAdapter.OnTabList
     }
     pagerAdapter = TabPagerAdapter(pageNames)
     viewPager?.adapter = pagerAdapter
-    viewPager?.addOnPageChangeListener(this)
     tabLayout?.setupWithViewPager(viewPager)
 
     // 给这个 ToolBar 设置顶部内边距，才能和 TitleBar 进行对齐
@@ -64,6 +63,10 @@ class HomeMVFragmentV2 : TitleBarFragment<HomeActivity>() , TabAdapter.OnTabList
 
     // 设置渐变监听
     collapsingToolbarLayout?.setOnScrimsListener(this)
+    changeText?.setOnClickListener {
+      toast("模式切换")
+      pagerAdapter?.changeModel()
+    }
   }
 
   override fun initData() {
@@ -78,24 +81,6 @@ class HomeMVFragmentV2 : TitleBarFragment<HomeActivity>() , TabAdapter.OnTabList
     return collapsingToolbarLayout?.isScrimsShown() == true
   }
 
-  /**
-   * [TabAdapter.OnTabListener]
-   */
-  override fun onTabSelected(recyclerView: RecyclerView?, position: Int): Boolean {
-    viewPager?.currentItem = position
-    return true
-  }
-
-  /**
-   * [ViewPager.OnPageChangeListener]
-   */
-  override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
-
-  override fun onPageSelected(position: Int) {
-
-  }
-
-  override fun onPageScrollStateChanged(state: Int) {}
 
   /**
    * CollapsingToolbarLayout 渐变回调
@@ -116,6 +101,5 @@ class HomeMVFragmentV2 : TitleBarFragment<HomeActivity>() , TabAdapter.OnTabList
   override fun onDestroy() {
     super.onDestroy()
     viewPager?.adapter = null
-    viewPager?.removeOnPageChangeListener(this)
   }
 }

@@ -1,10 +1,14 @@
 package com.fxq.kotlin.mvvm.ui.adapter
 
+import android.content.Context
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.TextView
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.PagerAdapter
 import com.hjq.base.BaseAdapter
@@ -24,6 +28,7 @@ import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 class TabPagerAdapter constructor(pages: List<String>)  : PagerAdapter(), HandlerAction, ToastAction {
   var mPages = pages
 
+  var type = 1
   /**
    * 缓存未被销毁的page界面，用于定向更新界面
    */
@@ -36,6 +41,19 @@ class TabPagerAdapter constructor(pages: List<String>)  : PagerAdapter(), Handle
   fun setDataSource(pages: List<String>) {
     mPages = pages
     notifyDataSetChanged()
+  }
+
+  fun changeModel() {
+    if (type == 1) {
+      type = 2
+    } else {
+      type = 1
+    }
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+      mMapViewHolders.forEach { key, value ->
+        value.changeModel()
+      }
+    }
   }
 
   override fun getCount(): Int {
@@ -52,6 +70,7 @@ class TabPagerAdapter constructor(pages: List<String>)  : PagerAdapter(), Handle
     val view = viewHolder.instantiateItem(container)
     view.tag = pageName
     container.addView(view)
+    mMapViewHolders.put(pageName, viewHolder)
     return view
   }
 
@@ -70,12 +89,13 @@ class TabPagerAdapter constructor(pages: List<String>)  : PagerAdapter(), Handle
 
   inner class PagerViewHolder: OnRefreshLoadMoreListener {
     private var adapter: StatusAdapter? = null
+    var recyclerView: WrapRecyclerView? = null
 
     fun instantiateItem(container: ViewGroup): View {
       val view =
         LayoutInflater.from(container.context).inflate(R.layout.status_fragment, container, false)
       val refreshLayout: SmartRefreshLayout = view.findViewById(R.id.rl_status_refresh)
-      val recyclerView: WrapRecyclerView = view.findViewById(R.id.rv_status_list)
+       recyclerView = view.findViewById(R.id.rv_status_list)
       adapter = StatusAdapter(view.context)
       adapter?.setOnItemClickListener(object : BaseAdapter.OnItemClickListener {
         override fun onItemClick(recyclerView: RecyclerView?, itemView: View?, position: Int) {
@@ -84,15 +104,32 @@ class TabPagerAdapter constructor(pages: List<String>)  : PagerAdapter(), Handle
       })
 
       adapter?.setData(analogData())
-      recyclerView.adapter = adapter
-      val headerView = recyclerView.addHeaderView<TextView>(R.layout.picker_item)
-      headerView.text = "我是头部"
-      headerView.setOnClickListener {toast("点击了头部")  }
-      val footerView = recyclerView.addFooterView<TextView>(R.layout.picker_item)
-      footerView.text = "我是尾部"
-      footerView.setOnClickListener { toast("点击了头部") }
+      recyclerView?.adapter = adapter
+      if (type == 2) {
+        recyclerView?.layoutManager = LinearLayoutManager(recyclerView?.context)
+      } else {
+        recyclerView?.layoutManager = GridLayoutManager(recyclerView?.context, 2)
+        recyclerView?.adjustSpanSize()
+      }
+      val headerView = recyclerView?.addHeaderView<TextView>(R.layout.picker_item)
+      headerView?.text = "我是头部"
+      headerView?.setOnClickListener {toast("点击了头部")  }
+      val footerView = recyclerView?.addFooterView<TextView>(R.layout.picker_item)
+      footerView?.text = "我是尾部"
+      footerView?.setOnClickListener { toast("点击了头部") }
       refreshLayout.setOnRefreshLoadMoreListener(this)
       return view
+    }
+
+    fun changeModel() {
+      // adapter?.changeType(type)
+      if (type == 2) {
+        recyclerView?.layoutManager = LinearLayoutManager(recyclerView?.context)
+      } else {
+        recyclerView?.layoutManager = GridLayoutManager(recyclerView?.context, 2)
+        recyclerView?.adjustSpanSize()
+      }
+      recyclerView?.requestLayout()
     }
 
     /**

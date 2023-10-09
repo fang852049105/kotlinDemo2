@@ -11,13 +11,13 @@ import java.util.ArrayList
  */
 class MainViewModel : ViewModel() {
 
-  private val mTitles = arrayOf("首页","首页2", "发现", "消息", "我的")
+  private val mTitles = arrayOf("首页", "发现", "消息", "我的")
 
   // 未被选中的图标
   private val mIconUnSelectIds = intArrayOf(
-    R.drawable.home_home_off_ic, R.drawable.home_home_off_ic, R.drawable.home_found_off_ic, R.drawable.home_message_off_ic, R.drawable.home_me_off_ic)
+    R.drawable.home_home_off_ic, R.drawable.home_found_off_ic, R.drawable.home_message_off_ic, R.drawable.home_me_off_ic)
   // 被选中的图标
-  private val mIconSelectIds = intArrayOf(R.drawable.home_home_on_ic,R.drawable.home_home_on_ic, R.drawable.home_found_on_ic, R.drawable.home_message_on_ic, R.drawable.home_me_on_ic)
+  private val mIconSelectIds = intArrayOf(R.drawable.home_home_on_ic, R.drawable.home_found_on_ic, R.drawable.home_message_on_ic, R.drawable.home_me_on_ic)
   //默认为0
   private var mIndex = 0
 
