@@ -5,6 +5,9 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.view.animation.LayoutAnimationController
 import android.widget.AdapterView
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
@@ -129,6 +132,11 @@ class TabPagerAdapter constructor(pages: List<String>)  : PagerAdapter(), Handle
         recyclerView?.layoutManager = GridLayoutManager(recyclerView?.context, 2)
         recyclerView?.adjustSpanSize()
       }
+      val animation = AnimationUtils.loadAnimation(recyclerView?.context, R.anim.left_in_activity)
+      val layoutAnimationController = LayoutAnimationController(animation)
+      layoutAnimationController.setOrder(LayoutAnimationController.ORDER_NORMAL)
+      layoutAnimationController.setDelay(0.2f)
+      recyclerView?.setLayoutAnimation(layoutAnimationController)
       recyclerView?.requestLayout()
     }
 
