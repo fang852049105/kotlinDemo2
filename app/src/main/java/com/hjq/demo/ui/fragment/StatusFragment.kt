@@ -1,7 +1,12 @@
 package com.hjq.demo.ui.fragment
 
+import android.util.Log
 import android.view.*
+import android.view.animation.AnimationUtils
+import android.view.animation.LayoutAnimationController
 import android.widget.TextView
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hjq.base.BaseAdapter
 import com.hjq.demo.R
@@ -39,6 +44,7 @@ class StatusFragment : TitleBarFragment<AppActivity>(), OnRefreshLoadMoreListene
     }
 
     override fun initView() {
+        Log.e("fxq", "StatusFragment initView")
         adapter = StatusAdapter(getAttachActivity()!!)
         adapter?.setOnItemClickListener(this)
 
@@ -56,6 +62,21 @@ class StatusFragment : TitleBarFragment<AppActivity>(), OnRefreshLoadMoreListene
 
     override fun initData() {
         adapter?.setData(analogData())
+    }
+
+    fun changeModel(type: Int) {
+        if (type == 2) {
+            recyclerView?.layoutManager = LinearLayoutManager(recyclerView?.context)
+        } else {
+            recyclerView?.layoutManager = GridLayoutManager(recyclerView?.context, 2)
+            recyclerView?.adjustSpanSize()
+        }
+        val animation = AnimationUtils.loadAnimation(recyclerView?.context, R.anim.left_in_activity)
+        val layoutAnimationController = LayoutAnimationController(animation)
+        layoutAnimationController.setOrder(LayoutAnimationController.ORDER_NORMAL)
+        layoutAnimationController.setDelay(0.2f)
+        recyclerView?.setLayoutAnimation(layoutAnimationController)
+        recyclerView?.requestLayout()
     }
 
     /**

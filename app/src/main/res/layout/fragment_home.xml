@@ -77,18 +77,33 @@
 
         </com.hjq.demo.widget.XCollapsingToolbarLayout>
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_layout"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@color/black25"
-            app:tabMinWidth="100dp"
-            app:tabIndicatorColor="#000"
-            app:tabIndicatorHeight="2dp"
-            app:tabSelectedTextColor="#000"
-            app:tabTextColor="#5000"
-            app:tabGravity="fill"
-            app:tabMode="scrollable"/>
+            android:layout_height="40dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_change"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="切换"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"/>
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_toLeftOf="@+id/tv_change"
+                android:background="@color/black25"
+                app:tabMinWidth="100dp"
+                app:tabIndicatorColor="#000"
+                app:tabIndicatorHeight="2dp"
+                app:tabSelectedTextColor="#000"
+                app:tabTextColor="#5000"
+                app:tabGravity="fill"
+                app:tabMode="scrollable" />
+        </RelativeLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 

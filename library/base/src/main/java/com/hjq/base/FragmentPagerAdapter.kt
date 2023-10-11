@@ -19,7 +19,7 @@ open class FragmentPagerAdapter<F : Fragment> constructor(manager: FragmentManag
     FragmentPagerAdapter(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     /** Fragment 集合 */
-    private val fragmentSet: MutableList<F> = ArrayList()
+    val fragmentSet: MutableList<F> = ArrayList()
 
     /** Fragment 标题 */
     private val fragmentTitle: MutableList<CharSequence?> = ArrayList()

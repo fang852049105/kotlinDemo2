@@ -39,8 +39,10 @@ class HomeMVFragment : TitleBarFragment<HomeActivity>() , TabAdapter.OnTabListen
   private val searchView: AppCompatImageView? by lazy { findViewById(R.id.iv_home_search) }
   private val tabLayout: TabLayout? by lazy { findViewById(R.id.tab_layout) }
   private val viewPager: ViewPager? by lazy { findViewById(R.id.vp_home_pager) }
+  private val changeText: TextView? by lazy { findViewById(R.id.tv_change) }
 
   private var pagerAdapter: FragmentPagerAdapter<AppFragment<*>>? = null
+  private var mType = 1
 
   override fun getLayoutId(): Int {
     return R.layout.fragment_home
@@ -52,6 +54,7 @@ class HomeMVFragment : TitleBarFragment<HomeActivity>() , TabAdapter.OnTabListen
       pagerAdapter!!.addFragment(StatusFragment.newInstance(), "列表演示$i")
     }
     viewPager?.adapter = pagerAdapter
+    viewPager?.offscreenPageLimit = 1
     viewPager?.addOnPageChangeListener(this)
     tabLayout?.setupWithViewPager(viewPager)
 
@@ -60,6 +63,22 @@ class HomeMVFragment : TitleBarFragment<HomeActivity>() , TabAdapter.OnTabListen
 
     // 设置渐变监听
     collapsingToolbarLayout?.setOnScrimsListener(this)
+    changeText?.setOnClickListener {
+      toast("模式切换")
+      changeModel()
+    }
+  }
+
+  private fun changeModel(){
+    if (mType == 1) {
+      mType = 2
+    } else {
+      mType = 1
+    }
+    // pagerAdapter?.fragmentSet?.forEach {
+    //   (it as StatusFragment).changeModel(mType)
+    // }
+    (pagerAdapter?.getShowFragment() as StatusFragment).changeModel(mType)
   }
 
   override fun initData() {
