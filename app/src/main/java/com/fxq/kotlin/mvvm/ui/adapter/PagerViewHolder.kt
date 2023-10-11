@@ -1,5 +1,6 @@
 package com.fxq.kotlin.mvvm.ui.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +34,7 @@ class PagerViewHolder: OnRefreshLoadMoreListener, HandlerAction, ToastAction {
   }
 
   fun instantiateItem(container: ViewGroup): View {
+    Log.d("fxq", "PagerViewHolder instantiateItem")
     val view =
       LayoutInflater.from(container.context).inflate(R.layout.status_fragment, container, false)
     val refreshLayout: SmartRefreshLayout = view.findViewById(R.id.rl_status_refresh)

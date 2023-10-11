@@ -24,8 +24,8 @@ class MainMVActivity : AppActivity() {
 
   private lateinit var mMainViewModel: MainViewModel
   private val mCommonTabLayout: CommonTabLayout? by lazy { findViewById(R.id.tab_layout) }
-  // private var mHomeFragmentV2: HomeMVFragmentV2? = null
-  private var mHomeFragment: HomeMVFragment? = null
+  private var mHomeFragmentV2: HomeMVFragmentV2? = null
+  // private var mHomeFragment: HomeMVFragment? = null
   private var mFindFragment: FindFragment? = null
   private var mMessageFragment: MessageFragment? = null
   private var mMineFragment: MineFragment? = null
@@ -84,20 +84,20 @@ class MainMVActivity : AppActivity() {
     val transaction = supportFragmentManager.beginTransaction()
     hideFragments(transaction)
     when (position) {
-      0 // 首页
-      -> mHomeFragment?.let {
-        transaction.show(it)
-      } ?: HomeMVFragment.newInstance().let {
-        mHomeFragment = it
-        transaction.add(R.id.fl_container, it, "home")
-      }
-      // 0 // 首页测试
-      // -> mHomeFragmentV2?.let {
+      // 0 // 首页
+      // -> mHomeFragment?.let {
       //   transaction.show(it)
       // } ?: HomeMVFragmentV2.newInstance().let {
-      //   mHomeFragmentV2 = it
-      //   transaction.add(R.id.fl_container, it, "homeV2")
+      //   mHomeFragment = it
+      //   transaction.add(R.id.fl_container, it, "home")
       // }
+      0 // 首页测试
+      -> mHomeFragmentV2?.let {
+        transaction.show(it)
+      } ?: HomeMVFragmentV2.newInstance().let {
+        mHomeFragmentV2 = it
+        transaction.add(R.id.fl_container, it, "homeV2")
+      }
       1  //发现
       -> mFindFragment?.let {
         transaction.show(it)
@@ -135,7 +135,7 @@ class MainMVActivity : AppActivity() {
    * @param transaction transaction
    */
   private fun hideFragments(transaction: FragmentTransaction) {
-    mHomeFragment?.let { transaction.hide(it) }
+    mHomeFragmentV2?.let { transaction.hide(it) }
     mFindFragment?.let { transaction.hide(it) }
     mMessageFragment?.let { transaction.hide(it) }
     mMineFragment?.let { transaction.hide(it) }

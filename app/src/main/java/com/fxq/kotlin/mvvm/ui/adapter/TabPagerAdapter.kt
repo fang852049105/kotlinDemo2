@@ -31,6 +31,7 @@ class TabPagerAdapter constructor(pages: List<String>)  : PagerAdapter() {
     }
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
       mMapViewHolders.forEach { key, value ->
+        value.setType(mType)
         value.changeModel()
       }
     }
